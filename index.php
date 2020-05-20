@@ -4,7 +4,7 @@
 <head>
     <title>Türkiye İl İlçe - Jquery Ajax </title>
     <!-- CSS only -->
-   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
     <div class="container ">
@@ -44,15 +44,25 @@
             $('#il').change(() => {
                 var il_id = $('#il option').filter(':selected').val();
                 // console.log(il_id);
+                // ajax ile gönderme metodu gönderilecek sayfa ve gönderilecek veri ismi belirtilmiştir.
                 $.ajax({
                     type    : "POST",
                     url     :'ajax.php',
                     data    :{
                         "il_id" : il_id,
                     },
-                    success : function(e){
-                        $('#ilce').show();
-                        $('#ilce').html(e)
+                    // veri gönderildikten sonra gelen değerler ajax_data değişkeni içine alındı.
+                    success : function(ajax_data){
+                        // console.log(ajax_data);
+                        // dönen değer boşsa ilçeler i gizle
+                        if (!ajax_data) {
+                            $('#ilce').hide();
+                        }
+                        else{
+                             $('#ilce').show();
+                            //ajax_data değişkeni select in içine yazıldı. 
+                            $('#ilce').html(ajax_data)
+                        }
                     }
                 });
             });
